@@ -260,3 +260,69 @@ var items = document.getElementsByClassName('list-group-item');
  let odd = document.querySelectorAll('li:nth-child(odd)');
  for(let i = 0; i < odd.length; i++) {odd[i].style.backgroundColor = '#f4f4f4';
 }
+
+let itemList = document.querySelector("#items");
+itemList.parentNode.style.backgroundColor = '#ccc';
+itemList.children[2].style.color = 'cyan';
+
+itemList.lastElementChild.style.fontWeight = 'bold';
+itemList.lastElementChild.previousElementSibling.innerText = 'ITEM 4';
+itemList.previousElementSibling.style.color = 'green';
+
+let newDiv = document.createElement('div');
+newDiv.className = "newdiv";
+newDiv.id = 'hello1';
+newDiv.setAttribute('title', 'Hello Div');
+let newText = document.createTextNode('Hello World!!');
+newDiv.appendChild(newText);
+
+let myContainer = document.querySelector('header .container');
+let myh1 = document.querySelector('header h1');
+
+myContainer.insertBefore(newDiv, myh1);
+
+document.querySelector('#button').addEventListener('click', buttonClick);
+
+function buttonClick(e) {
+  //alert("Welcome On Board!");
+  document.querySelector('#hello1').innerText = "Welcome On Board!!!";
+  console.log(e.target);
+  console.log(e.clientX);
+  console.log(e.clientY);//windowa göre conumu
+  console.log(e.offsetX);
+  console.log(e.offsetY);//butonun üstündeki konumu
+  console.log(e.altKey);//Bu tuslara basılarak tıklanırsa true döndürüyor
+  console.log(e.shiftKey);
+  alert(e.target.classList);
+  let output = document.getElementById('output');
+  output.innerHTML = '<h3>'+e.target.id+'</h3>';
+}
+
+let button2 = document.querySelector('#button2');
+button2.addEventListener('click', runEvent);
+button2.addEventListener('mouseenter', runEvent);
+button2.addEventListener('mousemove', runEvent);
+
+let itemInput = document.querySelector('input[type="text"]');
+let select = document.querySelector('select');
+let form = document.querySelector('form');
+
+itemInput.addEventListener('focus',runEvent2);//click inside
+itemInput.addEventListener('blur',runEvent2);//click outside
+itemInput.addEventListener('input',runEvent2);//anything we do inside of input
+
+select.addEventListener('change',runEvent2);
+
+form.addEventListener('submit',runEvent2);
+
+function runEvent(e) {
+  console.log('Event Type:', e.type);
+  output.innerHTML = '<h3>Mouse X:'+e.offsetX+'</h3><h3>Mouse Y:'+e.offsetY+'</h3>';
+  document.body.style.backgroundColor = 'rgb('+e.offsetX+','+e.offsetY+',40)';//last value for the blue = 40
+}
+
+function runEvent2(e) {
+  e.preventDefault();//to prevent submit page defaultly
+  console.log('Event Type:', e.type);
+  console.log(e.target.value);
+}
