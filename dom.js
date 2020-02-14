@@ -241,12 +241,83 @@
   // document.body.style.backgroundColor = "rgb("+e.offsetX+","+e.offsetY+", 40)";
 //}
 
+/*
+*******Part - 4 *************
+var form = document.getElementById('addForm');
+var itemList = document.getElementById('items');
+var filter = document.getElementById('filter');
+
+// Form submit event
+form.addEventListener('submit', addItem);
+// Delete event
+itemList.addEventListener('click', removeItem);
+// Filter event
+filter.addEventListener('keyup', filterItems);
+
+// Add item
+function addItem(e){
+  e.preventDefault();
+
+  // Get input value
+  var newItem = document.getElementById('item').value;
+
+  // Create new li element
+  var li = document.createElement('li');
+  // Add class
+  li.className = 'list-group-item';
+  // Add text node with input value
+  li.appendChild(document.createTextNode(newItem));
+
+  // Create del button element
+  var deleteBtn = document.createElement('button');
+
+  // Add classes to del button
+  deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+
+  // Append text node
+  deleteBtn.appendChild(document.createTextNode('X'));
+
+  // Append button to li
+  li.appendChild(deleteBtn);
+
+  // Append li to list
+  itemList.appendChild(li);
+}
+
+// Remove item
+function removeItem(e){
+  if(e.target.classList.contains('delete')){
+    if(confirm('Are You Sure?')){
+      var li = e.target.parentElement;
+      itemList.removeChild(li);
+    }
+  }
+}
+
+// Filter Items
+function filterItems(e){
+  // convert text to lowercase
+  var text = e.target.value.toLowerCase();
+  // Get lis
+  var items = itemList.getElementsByTagName('li');
+  // Convert to an array
+  Array.from(items).forEach(function(item){
+    var itemName = item.firstChild.textContent;
+    if(itemName.toLowerCase().indexOf(text) != -1){
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+ */
+
 var items = document.getElementsByClassName('list-group-item');
  //items[0].style.backgroundColor = "yellow";
  items[0].style.fontWeight = 'bold';
 
  let input = document.querySelector('input');
- input.value = 'Hello World!';
+ //input.value = 'Hello World!';
 
  let submit = document.querySelector('input[type="submit"]');
  submit.value = 'SEND';
@@ -278,8 +349,8 @@ newDiv.appendChild(newText);
 
 let myContainer = document.querySelector('header .container');
 let myh1 = document.querySelector('header h1');
-
-myContainer.insertBefore(newDiv, myh1);
+//let window = document.querySelector('window');
+//myContainer.insertBefore(newDiv, myh1);
 
 document.querySelector('#button').addEventListener('click', buttonClick);
 
@@ -294,6 +365,7 @@ function buttonClick(e) {
   console.log(e.altKey);//Bu tuslara basılarak tıklanırsa true döndürüyor
   console.log(e.shiftKey);
   alert(e.target.classList);
+  alert(window.innerHeight);
   let output = document.getElementById('output');
   output.innerHTML = '<h3>'+e.target.id+'</h3>';
 }
@@ -303,17 +375,25 @@ button2.addEventListener('click', runEvent);
 button2.addEventListener('mouseenter', runEvent);
 button2.addEventListener('mousemove', runEvent);
 
-let itemInput = document.querySelector('input[type="text"]');
+//let itemInput = document.querySelector('input[type="text"]');
 let select = document.querySelector('select');
 let form = document.querySelector('form');
+let filter = document.getElementById('filter');
 
-itemInput.addEventListener('focus',runEvent2);//click inside
-itemInput.addEventListener('blur',runEvent2);//click outside
-itemInput.addEventListener('input',runEvent2);//anything we do inside of input
+//itemInput.addEventListener('focus',runEvent2);//click inside
+//itemInput.addEventListener('blur',runEvent2);//click outside
+//itemInput.addEventListener('input',runEvent2);//anything we do inside of input
 
 select.addEventListener('change',runEvent2);
 
 form.addEventListener('submit',runEvent2);
+
+form.addEventListener('submit', addItem);
+
+itemList.addEventListener('click', deleteItem);
+
+filter.addEventListener('keyup', filterItems);
+
 
 function runEvent(e) {
   console.log('Event Type:', e.type);
@@ -325,4 +405,41 @@ function runEvent2(e) {
   e.preventDefault();//to prevent submit page defaultly
   console.log('Event Type:', e.type);
   console.log(e.target.value);
+}
+
+function addItem(e) {
+  e.preventDefault();
+  let newItem = document.getElementById('item').value;
+  let li = document.createElement('li');
+  li.className = "list-group-item";
+  li.appendChild(document.createTextNode(newItem));
+  let deleteButton = document.createElement('button');
+  deleteButton.className = "btn btn-danger btn-sm float-right delete";
+  deleteButton.appendChild(document.createTextNode('X'));
+  li.appendChild(deleteButton);
+
+  itemList.appendChild(li);
+  document.getElementById('item').value = "";
+}
+
+function deleteItem(e){
+  if(e.target.className === "btn btn-danger btn-sm float-right delete" ){
+    if (confirm('Are You Sure To Delete Item?')) {
+      let li = e.target.parentNode;
+      itemList.removeChild(li);
+    }
+  } 
+}
+
+function filterItems(e) {
+  let text = e.target.value.toLowerCase();
+  let items = itemList.getElementsByTagName('li');
+  Array.from(items).forEach(function(item) {
+    let itemName = item.firstChild.textContent;
+    if(itemName.toLowerCase().indexOf(text) >= 0) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
 }
